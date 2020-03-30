@@ -1,11 +1,14 @@
 <template>
-  <div class="pos">iceymoon-pos demo</div>
+  <div class="pos">
+    <left-nav />
+  </div>
 </template>
 
 <script>
+import LeftNav from "../components/LeftNav.vue";
 export default {
   name: "Pos",
-  components: {}
+  components: { LeftNav }
 };
 </script>
 
