@@ -50,6 +50,7 @@ export default {};
   text-align: center;
   border-bottom: 1px solid white;
   padding: 10px;
+  cursor: pointer;
 }
 
 .iconfont {
