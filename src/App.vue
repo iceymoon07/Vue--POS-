@@ -34,7 +34,6 @@ body {
 }
 
 .view {
-  background-color: lightblue;
   height: 100%;
   width: 92%;
 }

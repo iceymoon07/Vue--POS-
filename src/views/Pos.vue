@@ -1,6 +1,8 @@
 <template>
   <div class="pos">
+    <!--使用 element 的 layout 布局-->
     <el-row>
+      <!--订单区域-->
       <el-col :span="7" class="pos-order" id="pos-order">
         <el-tabs stretch>
           <el-tab-pane label="点餐">
@@ -25,7 +27,31 @@
           <el-tab-pane label="外卖">3</el-tab-pane>
         </el-tabs>
       </el-col>
-      <el-col :span="17" class="pos-goods">商品栏</el-col>
+      <!--商品区域-->
+      <el-col :span="17" class="pos-goods">
+        <!--常用商品-->
+        <div class="common-goods">
+          <div class="title">常用商品</div>
+          <!--常用商品列表-->
+          <div class="common-goods-list">
+            <ul>
+              <li v-for="(item, index) in commonGoods" :key="index">
+                <span>{{item.name}}</span>
+                <span class="price">{{item.price}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--商品分类展示-->
+        <div class="goods-show">
+          <el-tabs>
+            <el-tab-pane label="汉堡">1</el-tab-pane>
+            <el-tab-pane label="小食">2</el-tab-pane>
+            <el-tab-pane label="饮料">3</el-tab-pane>
+            <el-tab-pane label="套餐">4</el-tab-pane>
+          </el-tabs>
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -43,6 +69,19 @@ export default {
         { name: "cola", count: 2, price: 3 },
         { name: "cola", count: 2, price: 3 },
         { name: "cola", count: 2, price: 3 }
+      ],
+      commonGoods: [
+        { id: 1, name: "geek", price: "￥15" },
+        { id: 2, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" },
+        { id: 3, name: "geek", price: "￥15" }
       ]
     };
   },
@@ -72,6 +111,30 @@ export default {
 }
 
 .pos-goods {
-  background-color: lightcoral;
+  background-color: #f9fafc;
+}
+
+.common-goods .title {
+  height: 40px;
+  border-bottom: 1px solid #d3dce6;
+  padding: 10px;
+  background-color: #fff;
+}
+
+.common-goods-list ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.common-goods-list ul li {
+  list-style: none;
+  border: 1px solid #e5e9f2;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+}
+
+.common-goods-list .price {
+  color: #58b7ff;
 }
 </style>
