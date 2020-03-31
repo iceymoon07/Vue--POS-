@@ -1,16 +1,18 @@
 <template>
   <div class="pos">
-    <left-nav />
+    this is pos demo
   </div>
 </template>
 
 <script>
-import LeftNav from "../components/LeftNav.vue";
 export default {
   name: "Pos",
-  components: { LeftNav }
+  components: {  }
 };
 </script>
 
 <style scoped>
+.pos {
+
+}
 </style>

@@ -34,4 +34,25 @@ export default {};
 </script>
 
 <style scoped>
+.left-nav {
+  color: white;
+  background-color: #220052;
+  height: 100%;
+  width: 8%;
+  font-size: 14px;
+}
+
+.left-nav ul {
+}
+
+.left-nav li {
+  list-style: none;
+  text-align: center;
+  border-bottom: 1px solid white;
+  padding: 10px;
+}
+
+.iconfont {
+  font-size: 32px;
+}
 </style>
