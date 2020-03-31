@@ -42,9 +42,6 @@ export default {};
   font-size: 14px;
 }
 
-.left-nav ul {
-}
-
 .left-nav li {
   list-style: none;
   text-align: center;
