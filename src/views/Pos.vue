@@ -35,8 +35,8 @@
           <!--常用商品列表-->
           <div class="common-goods-list">
             <ul>
-              <li v-for="(item, index) in commonGoods" :key="index">
-                <span>{{item.name}}</span>
+              <li v-for="(item, goodsId) in commonGoods.oftenGoods" :key="goodsId">
+                <span>{{item.goodsName}}</span>
                 <span class="price">{{item.price}}</span>
               </li>
             </ul>
@@ -47,20 +47,56 @@
           <el-tabs>
             <el-tab-pane label="汉堡">
               <ul class="category-goods-list">
-                <li v-for="(item, index) in categoryGoods" :key="index">
+                <li v-for="(item, goodsId) in categoryGoods.data[0]" :key="goodsId">
                   <div class="img">
-                    <img :src="item.goodsImg" />
+                    <img :src="item.goodsImg" width="100%" />
                   </div>
                   <div>
                     <div class="name">{{item.goodsName}}</div>
-                    <div class="price">{{item.price}}</div>
+                    <div class="price">￥{{item.price}}元</div>
                   </div>
                 </li>
               </ul>
             </el-tab-pane>
-            <el-tab-pane label="小食">2</el-tab-pane>
-            <el-tab-pane label="饮料">3</el-tab-pane>
-            <el-tab-pane label="套餐">4</el-tab-pane>
+            <el-tab-pane label="小食">
+              <ul class="category-goods-list">
+                <li v-for="(item, goodsId) in categoryGoods.data[1]" :key="goodsId">
+                  <div class="img">
+                    <img :src="item.goodsImg" width="100%" />
+                  </div>
+                  <div>
+                    <div class="name">{{item.goodsName}}</div>
+                    <div class="price">￥{{item.price}}元</div>
+                  </div>
+                </li>
+              </ul>
+            </el-tab-pane>
+            <el-tab-pane label="饮料">
+              <ul class="category-goods-list">
+                <li v-for="(item, goodsId) in categoryGoods.data[2]" :key="goodsId">
+                  <div class="img">
+                    <img :src="item.goodsImg" width="100%" />
+                  </div>
+                  <div>
+                    <div class="name">{{item.goodsName}}</div>
+                    <div class="price">￥{{item.price}}元</div>
+                  </div>
+                </li>
+              </ul>
+            </el-tab-pane>
+            <el-tab-pane label="套餐">
+              <ul class="category-goods-list">
+                <li v-for="(item, goodsId) in categoryGoods.data[3]" :key="goodsId">
+                  <div class="img">
+                    <img :src="item.goodsImg" width="100%" />
+                  </div>
+                  <div>
+                    <div class="name">{{item.goodsName}}</div>
+                    <div class="price">￥{{item.price}}元</div>
+                  </div>
+                </li>
+              </ul>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </el-col>
@@ -69,6 +105,8 @@
 </template>
 
 <script>
+import { getCommonGoods, getCategoryGoods } from "../api/goods";
+
 export default {
   name: "Pos",
   components: {},
@@ -82,82 +120,17 @@ export default {
         { name: "cola", count: 2, price: 3 },
         { name: "cola", count: 2, price: 3 }
       ],
-      commonGoods: [
-        { id: 1, name: "geek", price: "￥15" },
-        { id: 2, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" },
-        { id: 3, name: "geek", price: "￥15" }
-      ],
-      categoryGoods: [
-        {
-          goodsId: 1,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos001.jpg",
-          goodsName: "香辣鸡腿堡",
-          price: 18
-        },
-        {
-          goodsId: 2,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos002.jpg",
-          goodsName: "田园鸡腿堡",
-          price: 15
-        },
-        {
-          goodsId: 3,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos004.jpg",
-          goodsName: "和风汉堡",
-          price: 15
-        },
-        {
-          goodsId: 4,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos003.jpg",
-          goodsName: "快乐全家桶",
-          price: 80
-        },
-        {
-          goodsId: 5,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos003.jpg",
-          goodsName: "脆皮炸鸡腿",
-          price: 10
-        },
-        {
-          goodsId: 6,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos004.jpg",
-          goodsName: "魔法鸡块",
-          price: 20
-        },
-        {
-          goodsId: 7,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos001.jpg",
-          goodsName: "可乐大杯",
-          price: 10
-        },
-        {
-          goodsId: 8,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos003.jpg",
-          goodsName: "雪顶咖啡",
-          price: 18
-        },
-        {
-          goodsId: 9,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos002.jpg",
-          goodsName: "大块鸡米花",
-          price: 15
-        },
-        {
-          goodsId: 20,
-          goodsImg: "http://7xjyw1.com1.z0.glb.clouddn.com/pos002.jpg",
-          goodsName: "香脆鸡柳",
-          price: 17
-        }
-      ]
+      commonGoods: {},
+      categoryGoods: {}
     };
+  },
+  created() {
+    getCommonGoods().then(response => {
+      this.commonGoods = response.data;
+    });
+    getCategoryGoods().then(response => {
+      this.categoryGoods = response.data;
+    });
   },
   mounted() {
     // 因为使用了 element 样式，直接在 css 中设置订单区域的 height 为 100%，是起不到想要的效果的
