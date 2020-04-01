@@ -7,19 +7,24 @@
         <el-tabs stretch>
           <el-tab-pane label="点餐">
             <el-table :data="tableData" height="250">
-              <el-table-column prop="name" label="名称" align="center"></el-table-column>
+              <el-table-column prop="goodsName" label="名称" align="center"></el-table-column>
               <el-table-column prop="count" label="数量" align="center"></el-table-column>
               <el-table-column prop="price" label="金额" align="center"></el-table-column>
               <el-table-column label="操作" align="center" fixed="right">
-                <template>
-                  <el-button type="text" size="small">删除</el-button>
-                  <el-button type="text" size="small">增加</el-button>
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="deleteSingleGoods(scope.$index)">删除</el-button>
+                  <el-button type="text" size="small" @click="reduceGoodsAmount(scope.$index)">减少</el-button>
+                  <el-button type="text" size="small" @click="addToOrderList(scope.row)">增加</el-button>
                 </template>
               </el-table-column>
             </el-table>
-            <div class="operationButtons">
+            <div class="total">
+              <span>数量：{{totalCount}}</span>
+              <span>金额：{{totalPrice}}</span>
+            </div>
+            <div class="operation-buttons">
               <el-button type="warning" class="button">挂单</el-button>
-              <el-button type="danger" class="button">删除</el-button>
+              <el-button type="danger" class="button" @click="deleteAllGoods()">删除</el-button>
               <el-button type="success" class="button">结账</el-button>
             </div>
           </el-tab-pane>
@@ -35,9 +40,13 @@
           <!--常用商品列表-->
           <div class="common-goods-list">
             <ul>
-              <li v-for="(item, goodsId) in commonGoods.oftenGoods" :key="goodsId">
+              <li
+                v-for="(item, index) in commonGoods.oftenGoods"
+                :key="index"
+                @click="addToOrderList(item)"
+              >
                 <span>{{item.goodsName}}</span>
-                <span class="price">{{item.price}}</span>
+                <span class="price">￥{{item.price}}</span>
               </li>
             </ul>
           </div>
@@ -47,7 +56,11 @@
           <el-tabs>
             <el-tab-pane label="汉堡">
               <ul class="category-goods-list">
-                <li v-for="(item, goodsId) in categoryGoods.data[0]" :key="goodsId">
+                <li
+                  v-for="(item, index) in categoryGoods.data[0]"
+                  :key="index"
+                  @click="addToOrderList(item)"
+                >
                   <div class="img">
                     <img :src="item.goodsImg" width="100%" />
                   </div>
@@ -60,7 +73,11 @@
             </el-tab-pane>
             <el-tab-pane label="小食">
               <ul class="category-goods-list">
-                <li v-for="(item, goodsId) in categoryGoods.data[1]" :key="goodsId">
+                <li
+                  v-for="(item, index) in categoryGoods.data[1]"
+                  :key="index"
+                  @click="addToOrderList(item)"
+                >
                   <div class="img">
                     <img :src="item.goodsImg" width="100%" />
                   </div>
@@ -73,7 +90,11 @@
             </el-tab-pane>
             <el-tab-pane label="饮料">
               <ul class="category-goods-list">
-                <li v-for="(item, goodsId) in categoryGoods.data[2]" :key="goodsId">
+                <li
+                  v-for="(item, index) in categoryGoods.data[2]"
+                  :key="index"
+                  @click="addToOrderList(item)"
+                >
                   <div class="img">
                     <img :src="item.goodsImg" width="100%" />
                   </div>
@@ -86,7 +107,11 @@
             </el-tab-pane>
             <el-tab-pane label="套餐">
               <ul class="category-goods-list">
-                <li v-for="(item, goodsId) in categoryGoods.data[3]" :key="goodsId">
+                <li
+                  v-for="(item, index) in categoryGoods.data[3]"
+                  :key="index"
+                  @click="addToOrderList(item)"
+                >
                   <div class="img">
                     <img :src="item.goodsImg" width="100%" />
                   </div>
@@ -112,17 +137,52 @@ export default {
   components: {},
   data() {
     return {
-      tableData: [
-        { name: "cola", count: 2, price: 3 },
-        { name: "cola", count: 2, price: 3 },
-        { name: "cola", count: 2, price: 3 },
-        { name: "cola", count: 2, price: 3 },
-        { name: "cola", count: 2, price: 3 },
-        { name: "cola", count: 2, price: 3 }
-      ],
+      tableData: [],
       commonGoods: {},
       categoryGoods: {}
     };
+  },
+  methods: {
+    addToOrderList(goods) {
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (goods.goodsId === this.tableData[i].goodsId) {
+          this.tableData[i].count++;
+          return;
+        }
+      }
+      let newGoods = {
+        goodsId: goods.goodsId,
+        goodsName: goods.goodsName,
+        price: goods.price,
+        count: 1
+      };
+      this.tableData.push(newGoods);
+    },
+    deleteSingleGoods(index) {
+      this.tableData.splice(index, 1);
+    },
+    deleteAllGoods() {
+      this.tableData = [];
+    },
+    reduceGoodsAmount(index) {
+      if (this.tableData[index].count > 1) {
+        this.tableData[index].count--;
+      } else {
+        this.deleteSingleGoods(index);
+      }
+    }
+  },
+  computed: {
+    totalCount() {
+      return this.tableData.reduce((result, goods) => {
+        return result + goods.count;
+      }, 0);
+    },
+    totalPrice() {
+      return this.tableData.reduce((result, goods) => {
+        return result + goods.count * goods.price;
+      }, 0);
+    }
   },
   created() {
     getCommonGoods().then(response => {
@@ -147,13 +207,13 @@ export default {
   border-right: 1px solid #c0ccda;
 }
 
-.operationButtons {
+.operation-buttons {
   display: flex;
   justify-content: center;
   margin-top: 10px;
 }
 
-.operationButtons .button {
+.operation-buttons .button {
   margin-right: 10px;
 }
 
