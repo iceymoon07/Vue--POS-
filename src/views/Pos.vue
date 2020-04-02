@@ -8,13 +8,25 @@
           <el-tab-pane label="点餐">
             <el-table :data="tableData" height="250">
               <el-table-column prop="goodsName" label="名称" align="center"></el-table-column>
-              <el-table-column prop="count" label="数量" align="center"></el-table-column>
-              <el-table-column prop="price" label="金额" align="center"></el-table-column>
+              <el-table-column label="数量" align="center">
+                <template slot-scope="scope">
+                  <button class="jiajian-button amount" @click="reduceGoodsAmount(scope.$index)">
+                    <i class="iconfont icon-jian"></i>
+                  </button>
+                  <span class="amount">{{scope.row.count}}</span>
+                  <button class="jiajian-button amount" @click="addToOrderList(scope.row)">
+                    <i class="iconfont icon-jia"></i>
+                  </button>
+                </template>
+              </el-table-column>
+              <el-table-column label="金额" align="center">
+                <template slot-scope="scope">
+                  <span>{{scope.row.count * scope.row.price}}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="操作" align="center" fixed="right">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="deleteSingleGoods(scope.$index)">删除</el-button>
-                  <el-button type="text" size="small" @click="reduceGoodsAmount(scope.$index)">减少</el-button>
-                  <el-button type="text" size="small" @click="addToOrderList(scope.row)">增加</el-button>
+                  <i class="iconfont icon-shanchu" @click="deleteSingleGoods(scope.$index)"></i>
                 </template>
               </el-table-column>
             </el-table>
@@ -196,7 +208,9 @@ export default {
     // 因为使用了 element 样式，直接在 css 中设置订单区域的 height 为 100%，是起不到想要的效果的
     // 在组件挂载完成时，通过获取 body 的 clientHeight，给订单区域设置 height
     let fullHeight = document.body.clientHeight;
-    document.getElementById("pos-order").style.height = fullHeight + "px";
+    setTimeout(() => {
+      document.getElementById("pos-order").style.height = fullHeight + "px";
+    }, 0);
   }
 };
 </script>
@@ -205,6 +219,29 @@ export default {
 .pos-order {
   background-color: #f9fafc;
   border-right: 1px solid #c0ccda;
+}
+
+.pos-order .jiajian-button {
+  border: none;
+  background-color: #409eff;
+  color: #fff;
+  text-align: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+}
+
+.pos-order .amount {
+  margin-right: 2px;
+}
+
+.iconfont {
+  font-size: 12px;
+}
+
+.icon-shanchu {
+  color: red;
+  cursor: pointer;
 }
 
 .operation-buttons {
@@ -239,6 +276,7 @@ export default {
   padding: 10px;
   margin: 10px;
   background-color: #fff;
+  cursor: pointer;
 }
 
 .common-goods-list .price {
@@ -263,6 +301,7 @@ export default {
   padding: 2px;
   margin: 2px;
   display: flex;
+  cursor: pointer;
 }
 
 .category-goods-list .img {
