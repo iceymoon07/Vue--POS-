@@ -47,7 +47,7 @@
       <!--商品区域-->
       <el-col :span="17" class="pos-goods">
         <!--常用商品区域-->
-        <div class="common-goods">
+        <div class="common-goods" v-if="commonGoods">
           <div class="title">常用商品</div>
           <!--常用商品列表-->
           <div class="common-goods-list">
@@ -64,7 +64,7 @@
           </div>
         </div>
         <!--商品分类展示区域-->
-        <div class="category-goods">
+        <div class="category-goods" v-if="categoryGoods">
           <el-tabs>
             <el-tab-pane label="汉堡">
               <ul class="category-goods-list">
@@ -150,8 +150,8 @@ export default {
   data() {
     return {
       tableData: [],
-      commonGoods: {},
-      categoryGoods: {}
+      commonGoods: null,
+      categoryGoods: null
     };
   },
   methods: {
@@ -208,9 +208,7 @@ export default {
     // 因为使用了 element 样式，直接在 css 中设置订单区域的 height 为 100%，是起不到想要的效果的
     // 在组件挂载完成时，通过获取 body 的 clientHeight，给订单区域设置 height
     let fullHeight = document.body.clientHeight;
-    setTimeout(() => {
-      document.getElementById("pos-order").style.height = fullHeight + "px";
-    }, 0);
+    document.getElementById("pos-order").style.height = fullHeight + "px";
   }
 };
 </script>
